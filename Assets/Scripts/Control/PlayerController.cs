@@ -9,12 +9,12 @@ namespace Game.Control
 
         void Update()
         {
-            InteractWithCombat();
-
-            InteractWithMovement();
+            if (InteractWithCombat()) return;
+            if (InteractWithMovement()) return;
+            print("Nothing happend");
         }
 
-        private void InteractWithCombat()
+        private bool InteractWithCombat()
         {
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
             foreach (RaycastHit hit in hits)
@@ -28,27 +28,24 @@ namespace Game.Control
                 if (Input.GetMouseButtonDown(0))
                 {
                     GetComponent<Fighter>()?.Attack(target);
-                    break;
                 }
+                return true;  // even on mouse hoover
             }
+            return false;
         }
 
-        private void InteractWithMovement()
-        {
-            if (Input.GetMouseButton(0))
-            {
-                MoveToCursor();
-            }
-        }
-
-        private void MoveToCursor()
+        private bool InteractWithMovement()
         {
 
-
-            if (Physics.Raycast(GetMouseRay(), out RaycastHit hitInfo))
+            if (Physics.Raycast(GetMouseRay(),out RaycastHit hit))
             {
-                GetComponent<Mover>()?.MoveTo(hitInfo.point);
+                if (Input.GetMouseButton(0))
+                {
+                    GetComponent<Mover>()?.MoveTo(hit.point);
+                }
+                return true;
             }
+            return false;
         }
 
         private static Ray GetMouseRay()
