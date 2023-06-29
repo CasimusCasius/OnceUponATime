@@ -1,11 +1,11 @@
-using Game.Combat;
+
 using Game.Core;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Game.Movement
 {
-    public class Mover : MonoBehaviour
+    public class Mover : MonoBehaviour, IAction
     {
         NavMeshAgent navMeshAgent;
         
@@ -34,16 +34,19 @@ namespace Game.Movement
             navMeshAgent.isStopped = false;
         }
 
-        public void Stop()
+        public void Cancel()
         {
             navMeshAgent.isStopped = true;
+            Debug.Log(this);
         }
 
         public void StartMoveAction(Vector3 destination)
         {
             GetComponent<ActionScheduler>()?.StartAction(this);
-            GetComponent<Fighter>()?.Cancel();
+            //GetComponent<Fighter>()?.Cancel();
             MoveTo(destination);
         }
+
+       
     }
 }

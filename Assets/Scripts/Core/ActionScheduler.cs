@@ -6,13 +6,13 @@ namespace Game.Core
 {
 	public class ActionScheduler : MonoBehaviour
 	{
-        MonoBehaviour previousAction;
-        public void StartAction(MonoBehaviour action)
+        IAction previousAction;
+        public void StartAction(IAction action)
         {
             if (previousAction == action) return;
             if (previousAction != null)
             {
-                print(previousAction + " Canceled");
+                previousAction.Cancel();
             }
             previousAction = action;
         }

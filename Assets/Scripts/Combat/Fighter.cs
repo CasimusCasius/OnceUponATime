@@ -4,7 +4,7 @@ using Game.Core;
 
 namespace Game.Combat
 {
-    public class Fighter : MonoBehaviour
+    public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] private float weaponRange;
 
@@ -19,7 +19,7 @@ namespace Game.Combat
             }
             else
             {
-                GetComponent<Mover>()?.Stop();
+                GetComponent<Mover>()?.Cancel();
             }
         }
 
@@ -32,6 +32,7 @@ namespace Game.Combat
         public void Cancel()
         {
             target = null;
+            Debug.Log(this);
         }
 
         private bool GetIsInRange()
