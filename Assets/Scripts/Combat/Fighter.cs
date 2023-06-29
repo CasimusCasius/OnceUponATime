@@ -6,12 +6,16 @@ namespace Game.Combat
 {
     public class Fighter : MonoBehaviour, IAction
     {
-        [SerializeField] private float weaponRange;
+        [SerializeField] private const float weaponRange = 3f;
+        [SerializeField] private const float timeBetweenAttacks = 1.5f;
 
         private Transform target;
+        float timeSinceLastAttack = Mathf.Infinity;
 
         private void Update()
         {
+            timeSinceLastAttack += Time.deltaTime;
+
             if (target == null) return;
             if (!GetIsInRange())
             {
@@ -21,7 +25,10 @@ namespace Game.Combat
             {
 
                 GetComponent<Mover>()?.Cancel();
+
                 AttackBehaviour();
+
+
             }
         }
 
@@ -41,7 +48,11 @@ namespace Game.Combat
 
         private void AttackBehaviour()
         {
-            GetComponent<Animator>()?.SetTrigger("attack");
+            if (timeSinceLastAttack > timeBetweenAttacks)
+            {
+                GetComponent<Animator>()?.SetTrigger("attack");
+                timeSinceLastAttack = 0;
+            }
         }
 
         private bool GetIsInRange()
