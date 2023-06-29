@@ -1,30 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Mover : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private LayerMask layerMask;
 
-    Ray lastRay;
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             MoveToCursor();
         }
+        Vector3 velocity = GetComponent<NavMeshAgent>().velocity;
+        Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+        GetComponent<Animator>().SetFloat("forwardSpeed", localVelocity.z);
     }
 
     private void MoveToCursor()
     {
-        lastRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
-        if (Physics.Raycast(lastRay, out RaycastHit hitInfo))
+        Ray Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(Ray, out RaycastHit hitInfo))
         {
             GetComponent<NavMeshAgent>().destination = hitInfo.point;
         }
+
     }
 }
