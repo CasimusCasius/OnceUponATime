@@ -22,6 +22,7 @@ namespace Game.Control
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
                 if (target == null)
                 {
+                   
                     continue;
                 }
 
@@ -41,7 +42,9 @@ namespace Game.Control
             {
                 if (Input.GetMouseButton(0))
                 {
-                    GetComponent<Mover>()?.MoveTo(hit.point);
+                    
+                    GetComponent<Mover>()?.StartMoveAction(hit.point);
+
                 }
                 return true;
             }
