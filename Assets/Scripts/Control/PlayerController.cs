@@ -1,3 +1,4 @@
+using Game.Combat;
 using Game.Movement;
 using UnityEngine;
 
@@ -8,20 +9,51 @@ namespace Game.Control
 
         void Update()
         {
-            if (Input.GetMouseButton(0))
+            InteractWithCombat();
+
+            InteractWithMovement();
+        }
+
+        private void InteractWithCombat()
+        {
+            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            foreach (RaycastHit hit in hits)
             {
-                ProceedActionInCursor();
+                CombatTarget target = hit.transform.GetComponent<CombatTarget>();
+                if (target == null)
+                {
+                    continue;
+                }
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    GetComponent<Fighter>()?.Attack(target);
+                    break;
+                }
             }
         }
 
-        private void ProceedActionInCursor()
+        private void InteractWithMovement()
         {
-            Ray Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Input.GetMouseButton(0))
+            {
+                MoveToCursor();
+            }
+        }
 
-            if (Physics.Raycast(Ray, out RaycastHit hitInfo))
+        private void MoveToCursor()
+        {
+
+
+            if (Physics.Raycast(GetMouseRay(), out RaycastHit hitInfo))
             {
                 GetComponent<Mover>()?.MoveTo(hitInfo.point);
             }
+        }
+
+        private static Ray GetMouseRay()
+        {
+            return Camera.main.ScreenPointToRay(Input.mousePosition);
         }
     }
 }
