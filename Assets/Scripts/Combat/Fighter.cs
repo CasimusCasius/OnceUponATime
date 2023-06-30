@@ -1,6 +1,6 @@
-﻿using Game.Movement;
+﻿using Game.Core;
+using Game.Movement;
 using UnityEngine;
-using Game.Core;
 
 namespace Game.Combat
 {
@@ -30,7 +30,7 @@ namespace Game.Combat
             }
         }
 
-       
+
 
         public void Attack(CombatTarget combatTarget)
         {
@@ -43,7 +43,7 @@ namespace Game.Combat
             target = null;
             Debug.Log(this);
         }
- // animation Event
+        // animation Event
         public void Hit()
         {
             if (target.TryGetComponent(out Health targetHealth))
@@ -65,7 +65,7 @@ namespace Game.Combat
             return Vector3.Distance(target.position, transform.position) <= weaponRange;
         }
 
-       
+
 
     }
 }
