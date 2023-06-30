@@ -6,8 +6,9 @@ namespace Game.Combat
 {
     public class Fighter : MonoBehaviour, IAction
     {
-        [SerializeField] private const float weaponRange = 3f;
-        [SerializeField] private const float timeBetweenAttacks = 1.5f;
+        [SerializeField] private float weaponRange = 3f;
+        [SerializeField] private float weaponDamage = 20f;
+        [SerializeField] private float timeBetweenAttacks = 1.5f;
 
         private Transform target;
         float timeSinceLastAttack = Mathf.Infinity;
@@ -23,16 +24,13 @@ namespace Game.Combat
             }
             else
             {
-
                 GetComponent<Mover>()?.Cancel();
 
                 AttackBehaviour();
-
-
             }
         }
 
-
+       
 
         public void Attack(CombatTarget combatTarget)
         {
@@ -45,7 +43,14 @@ namespace Game.Combat
             target = null;
             Debug.Log(this);
         }
-
+ // animation Event
+        public void Hit()
+        {
+            if (target.TryGetComponent(out Health targetHealth))
+            {
+                targetHealth.TakeDamage(weaponDamage);
+            }
+        }
         private void AttackBehaviour()
         {
             if (timeSinceLastAttack > timeBetweenAttacks)
@@ -60,11 +65,7 @@ namespace Game.Combat
             return Vector3.Distance(target.position, transform.position) <= weaponRange;
         }
 
-        // animation Event
-        void Hit()
-        {
-
-        }
+       
 
     }
 }
