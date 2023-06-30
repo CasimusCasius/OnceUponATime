@@ -20,7 +20,7 @@ namespace Game.Control
             foreach (RaycastHit hit in hits)
             {
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                if (target == null)
+                if (target == null || !GetComponent<Fighter>().CanAttack(target))
                 {
                    
                     continue;
