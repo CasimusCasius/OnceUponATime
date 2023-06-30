@@ -85,7 +85,7 @@ namespace Game.Combat
         {
             if (TryGetComponent(out Animator animator))
             {
-                animator.ResetTrigger("stopAttack");
+                animator.ResetTrigger("outAttack");
                 animator.SetTrigger("attack");
             }
         }

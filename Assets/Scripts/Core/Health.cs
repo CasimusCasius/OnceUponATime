@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Core
@@ -24,7 +22,7 @@ namespace Game.Core
         private void Die()
         {
             isAlive = false;
-            if (TryGetComponent<ActionScheduler>(out ActionScheduler actionScheduler) )
+            if (TryGetComponent<ActionScheduler>(out ActionScheduler actionScheduler))
             {
                 actionScheduler.CancelCurrentAction();
             }

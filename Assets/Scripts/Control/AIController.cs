@@ -1,23 +1,29 @@
 using Game.Combat;
 using Game.Core;
-using System.Collections;
-using System.Collections.Generic;
+using Game.Movement;
 using UnityEngine;
 
 namespace Game.Control
 {
-	public class AIController : MonoBehaviour
-	{
+    public class AIController : MonoBehaviour
+    {
         [SerializeField] private float chaseDistance = 5f;
 
-        Fighter fighter;
-        GameObject player;
-        Health myHealth;
+        private Fighter fighter;
+        private GameObject player;
+        private Health myHealth;
+        private Mover mover;
+
+        Vector3 guardingLocation;
+
 
         private void Awake()
         {
             fighter = GetComponent<Fighter>();
             myHealth = GetComponent<Health>();
+            mover = GetComponent<Mover>();
+
+            guardingLocation = transform.position;
         }
 
         private void Start()
@@ -28,13 +34,13 @@ namespace Game.Control
         private void Update()
         {
             if (myHealth == null || !myHealth.IsAlive()) return;
-            if (InAttackRangeOfPlayer() && fighter.CanAttack(player) )
+            if (InAttackRangeOfPlayer() && fighter.CanAttack(player))
             {
                 fighter.Attack(player);
             }
             else
             {
-                fighter.Cancel();
+                mover.StartMoveAction(guardingLocation);
             }
         }
 
@@ -43,5 +49,12 @@ namespace Game.Control
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
             return distanceToPlayer <= chaseDistance;
         }
-    } 
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, chaseDistance);
+        }
+
+    }
 }
