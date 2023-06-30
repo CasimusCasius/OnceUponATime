@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 namespace Game.Movement
 {
+   
     public class Mover : MonoBehaviour, IAction
     {
         NavMeshAgent navMeshAgent;
@@ -17,6 +18,7 @@ namespace Game.Movement
         
         void Update()
         {
+            navMeshAgent.enabled = GetComponent<Health>().IsAlive();
             UpdateAnimator();
         }
 
@@ -42,7 +44,8 @@ namespace Game.Movement
 
         public void StartMoveAction(Vector3 destination)
         {
-            GetComponent<ActionScheduler>()?.StartAction(this);
+                         
+            GetComponent<ActionScheduler>().StartAction(this);
            
             MoveTo(destination);
         }

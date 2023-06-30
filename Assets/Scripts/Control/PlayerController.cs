@@ -1,14 +1,25 @@
 using Game.Combat;
+using Game.Core;
 using Game.Movement;
 using UnityEngine;
 
+
 namespace Game.Control
 {
+    
     public class PlayerController : MonoBehaviour
     {
 
+        Health myHealth;
+
+        private void Awake()
+        {
+            myHealth = GetComponent<Health>();
+        }
+
         void Update()
         {
+            if (myHealth == null || !myHealth.IsAlive()) return;
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
             print("Nothing happend");
@@ -19,16 +30,16 @@ namespace Game.Control
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
             foreach (RaycastHit hit in hits)
             {
-                CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                if (target == null || !GetComponent<Fighter>().CanAttack(target))
+                if (!hit.transform.TryGetComponent<CombatTarget>(out var target)) continue;
+
+                if (!GetComponent<Fighter>().CanAttack(target.gameObject))
                 {
-                   
                     continue;
                 }
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    GetComponent<Fighter>()?.Attack(target);
+                    GetComponent<Fighter>().Attack(target.gameObject);
                 }
                 return true;  // even on mouse hoover
             }
@@ -43,7 +54,7 @@ namespace Game.Control
                 if (Input.GetMouseButton(0))
                 {
                     
-                    GetComponent<Mover>()?.StartMoveAction(hit.point);
+                    GetComponent<Mover>().StartMoveAction(hit.point);
 
                 }
                 return true;
