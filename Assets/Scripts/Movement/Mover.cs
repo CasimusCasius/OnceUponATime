@@ -1,5 +1,6 @@
 
 using Game.Core;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,7 +10,8 @@ namespace Game.Movement
     public class Mover : MonoBehaviour, IAction
     {
         NavMeshAgent navMeshAgent;
-        
+        [SerializeField] private float maxMovementSpeed = 6f;
+
 
         private void Awake()
         {
@@ -50,6 +52,9 @@ namespace Game.Movement
             MoveTo(destination);
         }
 
-       
+        internal void SetMovementSpeed(float movementFraction)
+        {
+            navMeshAgent.speed = movementFraction * maxMovementSpeed;
+        }
     }
 }

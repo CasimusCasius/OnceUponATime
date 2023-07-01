@@ -2,14 +2,17 @@ using Game.Combat;
 using Game.Core;
 using Game.Movement;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Game.Control
 {
     public class AIController : MonoBehaviour
     {
         [SerializeField] private float chaseDistance = 5f;
+        [SerializeField] private float chaseFaractionSpeed = 0.8f;
         [SerializeField] private float timeOfSuspition = 3f;
         [SerializeField] private PatrolPath patrolPath;
+        [SerializeField] private float patrolSpeedFraction = 0.3f;
         [SerializeField] private float waypointsTolerance = .5f;
         [SerializeField] private float dwellingTime = 1f;
 
@@ -17,6 +20,7 @@ namespace Game.Control
         private GameObject player;
         private Health myHealth;
         private Mover mover;
+        private NavMeshAgent navMeshAgent;
 
         Vector3 guardingPosition;
         float timeSinceLastSawPlayer = Mathf.Infinity;
@@ -28,9 +32,12 @@ namespace Game.Control
             fighter = GetComponent<Fighter>();
             myHealth = GetComponent<Health>();
             mover = GetComponent<Mover>();
+            navMeshAgent = GetComponent<NavMeshAgent>();
+
             guardingPosition = transform.position;
         }
 
+        
         private void Start()
         {
             player = GameObject.FindWithTag("Player");
@@ -63,6 +70,7 @@ namespace Game.Control
         private void AttackBehaviour()
         {
             timeSinceLastSawPlayer = 0;
+            mover.SetMovementSpeed(chaseFaractionSpeed);
             fighter.Attack(player);
         }
 
@@ -74,7 +82,7 @@ namespace Game.Control
         private void PatrolBehaviour()
         {
             Vector3 nextPosition = guardingPosition;
-
+            mover.SetMovementSpeed(patrolSpeedFraction);
             if (patrolPath != null)
             {
                 if (WaypointReached())

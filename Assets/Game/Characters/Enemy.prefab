@@ -117,9 +117,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaseDistance: 5
+  chaseFaractionSpeed: 0.8
   timeOfSuspition: 3
   patrolPath: {fileID: 0}
+  patrolSpeedFraction: 0.3
   waypointsTolerance: 0.5
+  dwellingTime: 1
 --- !u!114 &8407059113118649880
 MonoBehaviour:
   m_ObjectHideFlags: 0
