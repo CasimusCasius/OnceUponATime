@@ -15,3 +15,6 @@ MonoBehaviour:
   PaletteLayers:
   - {fileID: 8574412962073106934, guid: 8754e864b6e3fdb47a3bef4942374df3, type: 2}
   - {fileID: 8574412962073106934, guid: dc75c219cd6398f4a8fefb1550e92769, type: 2}
+  - {fileID: 8574412962073106934, guid: 2c6a040ea5f1cb746b534d9a6a141975, type: 2}
+  - {fileID: 8574412962073106934, guid: 4b916f3ccacd62f4687f76aea02987c0, type: 2}
+  - {fileID: 8574412962073106934, guid: c19c6732312288445b3f8ab7e317068b, type: 2}
