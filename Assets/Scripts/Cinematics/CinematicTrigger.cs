@@ -12,10 +12,10 @@ namespace Game.Cinematics
         private void OnTriggerEnter(Collider other)
         {
 
-            if (other.gameObject.tag == "Player" && !wasPlayed)
+            if (other.gameObject.CompareTag("Player") && !wasPlayed)
             {
                 GetComponent<PlayableDirector>().Play();
-                other.gameObject.GetComponent<ActionScheduler>().CancelCurrentAction();
+                
                 wasPlayed = true;
             }
         }
