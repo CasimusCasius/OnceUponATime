@@ -7,10 +7,19 @@ using UnityEngine.SceneManagement;
 
 namespace Game.SceneManagement
 {
-	public class Portal : MonoBehaviour
-	{
+    public class Portal : MonoBehaviour
+    {
+        enum DestinationIdentifier
+        {
+            A, B, C, D, E, F, G
+
+        }
+
+
         [SerializeField] private int sceneToLoadIndex = -1;
         [SerializeField] private Transform spawnPoint;
+        [SerializeField] private DestinationIdentifier destination;
+
 
         private void Awake()
         {
@@ -27,7 +36,7 @@ namespace Game.SceneManagement
         private IEnumerator Transition()
         {
 
-            
+
             yield return SceneManager.LoadSceneAsync(sceneToLoadIndex);
 
             Portal otherPortal = GetOtherPortal();
@@ -40,7 +49,7 @@ namespace Game.SceneManagement
         {
             foreach (Portal portal in GameObject.FindObjectsOfType<Portal>())
             {
-                if (portal == this) { continue; }
+                if (portal == this || portal.destination != this.destination ) { continue; }
                 return portal;
             }
             return null;
