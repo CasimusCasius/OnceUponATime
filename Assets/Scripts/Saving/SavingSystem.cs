@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace Game.Saving
@@ -9,13 +10,21 @@ namespace Game.Saving
     {
         public void Save(string saveFile)
         {
-            print("Saving to the "+ saveFile);
+            print("Saving to the "+ GetPathFromSaveFile(saveFile));
         }
 
         public void Load(string saveFile)
         {
-            print("Loading from the " + saveFile);
+            print("Loading from the " + GetPathFromSaveFile(saveFile));
         }
 
+        private string GetPathFromSaveFile(string saveFile)
+        {
+            return Path.Combine( Application.persistentDataPath,saveFile);
+        }
+
+
     }
+
+
 }
