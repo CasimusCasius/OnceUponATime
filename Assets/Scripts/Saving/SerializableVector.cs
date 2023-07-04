@@ -3,18 +3,18 @@
 namespace Game.Saving
 {
     [System.Serializable]
-    public class SerializableVector3
+    public class SerializableVector
     {
         float x, y, z;
 
-        public SerializableVector3(Vector3 vector)
+        public SerializableVector(Vector3 vector)
         {
             this.x = vector.x;
             this.y = vector.y;
             this.z = vector.z;
         }
 
-        public Vector3 ToVector3() 
+        public Vector3 ToVector() 
         {
         
             return new Vector3(x, y, z);
