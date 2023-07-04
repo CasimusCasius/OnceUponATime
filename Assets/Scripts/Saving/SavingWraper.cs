@@ -6,7 +6,7 @@ namespace Game.Saving
 {
     public class SavingWraper : MonoBehaviour
     {
-        const string DEAFULT_SAVEFILE = "autosave.sav";
+        const string DEAFULT_SAVEFILE = "autosave";
 
         private void Update()
         {
