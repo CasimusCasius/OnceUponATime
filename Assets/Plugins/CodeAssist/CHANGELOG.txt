@@ -1,5 +1,18 @@
 List of new features, bug fixes and improvements
 
+Version 1.1.1
+* Bugfix for error handling of binary file parsing
+
+Version 1.1.0
+* New feature: Generative AI. Use OpenAI ChatGPT within comments to complete your code
+* New feature: Visual Studio menus. Access Unity Code Assist from "Extensions"->"Unity Code Assist"
+* New code completions: PlayerPrefs, EditorPrefs and Input classes' methods can be auto completed
+* New inline visuals: PlayerPrefs, EditorPrefs and Input classes' methods can display inline information
+* New code transformer: Auto Input Manager. Converts legacy input code into the new Input Manager
+
+Version 1.0.0.21
+* Stability improvements for Unity ScriptFinder class
+
 Version 1.0.0.20
 * Bugfix for crash at startup https://github.com/merryyellow/Unity-Code-Assist/issues/18
 
