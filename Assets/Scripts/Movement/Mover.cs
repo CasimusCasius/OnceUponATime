@@ -1,13 +1,12 @@
 
 using Game.Core;
-using System;
+using Game.Saving;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Game.Movement
 {
-   
-    public class Mover : MonoBehaviour, IAction
+    public class Mover : MonoBehaviour, IAction, ISaveable
     {
         NavMeshAgent navMeshAgent;
         [SerializeField] private float maxMovementSpeed = 6f;
@@ -52,9 +51,28 @@ namespace Game.Movement
             MoveTo(destination);
         }
 
-        internal void SetMovementSpeed(float movementFraction)
+        public void SetMovementSpeed(float movementFraction)
         {
             navMeshAgent.speed = movementFraction * maxMovementSpeed;
+        }
+
+        public object CaptureState()
+        {
+            return new SerializableVector(transform.position);
+        }
+
+        public void RestoreState(object state)
+        {
+            SerializableVector position = state as SerializableVector;
+            if (position != null)
+            {
+                NavMeshAgent navMesh = GetComponent<NavMeshAgent>();
+                if (navMesh != null)
+                {
+                    navMesh.Warp((Vector3)position.ToVector());
+                }
+                GetComponent<ActionScheduler>().CancelCurrentAction();
+            }
         }
     }
 }

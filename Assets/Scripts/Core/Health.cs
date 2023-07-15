@@ -1,8 +1,9 @@
+using Game.Saving;
 using UnityEngine;
 
 namespace Game.Core
 {
-    public class Health : MonoBehaviour
+    public class Health : MonoBehaviour, ISaveable
     {
         [SerializeField] private float healthPoints = 100f;
         private bool isAlive = true;
@@ -30,5 +31,18 @@ namespace Game.Core
         }
 
         public bool IsAlive() => isAlive;
+
+        public object CaptureState()
+        {
+            return healthPoints;
+        }
+
+        public void RestoreState(object state)
+        {
+            healthPoints = (float)state;
+
+            if (healthPoints <= 0)
+                Die();
+        }
     }
 }

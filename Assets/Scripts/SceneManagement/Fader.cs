@@ -9,19 +9,15 @@ namespace Game.SceneManagement
         CanvasGroup canvasGroup = null;
 
 
-        private void Start()
+        private void Awake()
         {
             canvasGroup = GetComponent<CanvasGroup>();
-            
-
         }
 
-        //private IEnumerator FadeOutIn()
-        //{
-        //    yield return FadeOut(fadeOutTime);
-
-        //    yield return FadeIn(fadeInTime);
-        //}
+        public void FadeOutImmediate()
+        {
+            canvasGroup.alpha = 1.0f;
+        }    
 
         public IEnumerator FadeOut(float time)
         {
