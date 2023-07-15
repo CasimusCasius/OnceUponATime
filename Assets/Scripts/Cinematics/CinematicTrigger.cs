@@ -8,7 +8,7 @@ namespace Game.Cinematics
 {
 	public class CinematicTrigger : MonoBehaviour
 	{
-        bool wasPlayed = false;
+        [SerializeField]bool wasPlayed = false;
         private void OnTriggerEnter(Collider other)
         {
 

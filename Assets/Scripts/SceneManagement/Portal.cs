@@ -1,3 +1,4 @@
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,7 +14,6 @@ namespace Game.SceneManagement
 
         }
 
-
         [SerializeField] private int sceneToLoadIndex = -1;
         [SerializeField] private Transform spawnPoint;
         [SerializeField] private DestinationIdentifier destination;
@@ -21,10 +21,6 @@ namespace Game.SceneManagement
         [SerializeField] float fadeOutTime = 1f;
         [SerializeField] float fadeWaitTime = 0.5f;
 
-        private void Awake()
-        {
-            
-        }
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
@@ -42,21 +38,40 @@ namespace Game.SceneManagement
                 yield break;
             }
             DontDestroyOnLoad(gameObject);
-
+            
             Fader fader = FindAnyObjectByType<Fader>();
 
             yield return fader.FadeOut(fadeOutTime);
-
+            SaveAtCheckpoint();
             yield return SceneManager.LoadSceneAsync(sceneToLoadIndex);
+
+            LoadAtCheckpoint();
 
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal.spawnPoint);
 
+            SaveAtCheckpoint();
             yield return new WaitForSeconds(fadeWaitTime);
 
             yield return fader.FadeIn(fadeInTime);
 
             Destroy(gameObject);
+        }
+
+        private static void LoadAtCheckpoint()
+        {
+            SavingWraper savingWraper = FindObjectOfType<SavingWraper>();
+            if (savingWraper != null)
+                savingWraper.Load();
+        }
+
+        private static void SaveAtCheckpoint()
+        {
+            SavingWraper savingWraper = FindObjectOfType<SavingWraper>();
+            if (savingWraper != null)
+            {
+                savingWraper.Save();
+            }
         }
 
         private Portal GetOtherPortal()
