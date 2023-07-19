@@ -2,25 +2,24 @@
 using Game.Movement;
 using UnityEngine;
 
-
 namespace Game.Combat
 {
 
     public class Fighter : MonoBehaviour, IAction
     {
-
         [SerializeField] private float timeBetweenAttacks = 1.5f;
         [SerializeField] private Transform handTransform = null;
-        [SerializeField] private Weapon weapon = null;
+        [SerializeField] private Weapon defaultWeapon = null;
         
-
-
         private Health target;
-        float timeSinceLastAttack = Mathf.Infinity;
+        private float timeSinceLastAttack = Mathf.Infinity;
+        private Weapon currentWeapon;
 
         private void Start()
         {
-            SpawnWeapon();
+            currentWeapon = defaultWeapon;
+            EquipWeapon(defaultWeapon);
+
         }
 
         private void Update()
@@ -73,15 +72,15 @@ namespace Game.Combat
         public void Hit()
         {
             if (target == null) return;
-            target.TakeDamage(weapon.GetWeaponDamage());
+            target.TakeDamage(currentWeapon.GetWeaponDamage());
 
         }
 
-        private void SpawnWeapon()
+        public void EquipWeapon(Weapon weapon)
         {
-            if (weapon == null) return;
+            currentWeapon = weapon;
             Animator animator = GetComponent<Animator>();
-            weapon.Spawn(handTransform, animator);
+            currentWeapon.Spawn(handTransform, animator);
         }
 
         private void AttackBehaviour()
@@ -110,7 +109,7 @@ namespace Game.Combat
         private bool GetIsInRange()
         {
             return 
-                Vector3.Distance(target.transform.position, transform.position) <= weapon.GetWeaponRange();
+                Vector3.Distance(target.transform.position, transform.position) <= currentWeapon.GetWeaponRange();
         }
 
         public bool CanAttack(GameObject combatTarget)
