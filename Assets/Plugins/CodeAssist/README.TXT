@@ -49,7 +49,7 @@ Code Assist is always active while you are coding. The following samples will gi
 
 
 Generative AI:
-Generative AI is one of the features of Code Assist. If you have any ethical or legal concerns, you can use Code Assist without this feature.
+Generative AI is one of the features of Code Assist. If you have any ethical or legal concerns, you can use Code Assist without this feature by disabling it in the options.
 
 You need an OpenAI account and provide it's API key to this asset.
 https://platform.openai.com/account/api-keys
