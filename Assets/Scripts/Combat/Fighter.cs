@@ -5,15 +5,24 @@ using UnityEngine;
 
 namespace Game.Combat
 {
-    
+
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] private float weaponRange = 3f;
         [SerializeField] private float weaponDamage = 20f;
         [SerializeField] private float timeBetweenAttacks = 1.5f;
+        [SerializeField] private GameObject weaponPrefab = null;
+        [SerializeField] private Transform handTransform = null;
 
         private Health target;
         float timeSinceLastAttack = Mathf.Infinity;
+
+        private void Start()
+        {
+            SpawnWeapon();
+        }
+
+        
 
         private void Update()
         {
@@ -42,8 +51,8 @@ namespace Game.Combat
 
         public void Attack(GameObject combatTarget)
         {
-                GetComponent<ActionScheduler>().StartAction(this);
-                target = combatTarget.GetComponent<Health>();
+            GetComponent<ActionScheduler>().StartAction(this);
+            target = combatTarget.GetComponent<Health>();
         }
 
         public void Cancel()
@@ -57,7 +66,7 @@ namespace Game.Combat
         private void StopAttack()
         {
             if (TryGetComponent(out Animator animator))
-            animator.ResetTrigger("attack");
+                animator.ResetTrigger("attack");
             animator.SetTrigger("outAttack");
         }
 
@@ -68,6 +77,12 @@ namespace Game.Combat
             target.TakeDamage(weaponDamage);
 
         }
+
+        private void SpawnWeapon()
+        {
+            Instantiate(weaponPrefab, handTransform);
+        }
+
         private void AttackBehaviour()
         {
 
