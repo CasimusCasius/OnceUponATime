@@ -8,7 +8,8 @@ namespace Game.Combat
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] private float timeBetweenAttacks = 1.5f;
-        [SerializeField] private Transform handTransform = null;
+        [SerializeField] private Transform rightHandTransform = null;
+        [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Weapon defaultWeapon = null;
         
         private Health target;
@@ -80,7 +81,7 @@ namespace Game.Combat
         {
             currentWeapon = weapon;
             Animator animator = GetComponent<Animator>();
-            currentWeapon.Spawn(handTransform, animator);
+            currentWeapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
 
         private void AttackBehaviour()

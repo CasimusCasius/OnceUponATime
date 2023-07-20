@@ -10,12 +10,15 @@ namespace Game.Combat
         [SerializeField] private GameObject equippedPrefab = null;
         [SerializeField] private float weaponRange = 3f;
         [SerializeField] private float weaponDamage = 20f;
+        [SerializeField] private bool isRightHanded = true;
 
-        public void Spawn(Transform handTransform, Animator animator)
+        public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {
 
             if (equippedPrefab != null)
             {
+                Transform handTransform = isRightHanded ? rightHand : leftHand;
+
                 Instantiate(equippedPrefab, handTransform);
             }
             if (animatorOverride != null)
