@@ -18,7 +18,8 @@ namespace Game.Combat
         // Update is called once per frame
         void Update()
         {
-            if (target != null && isHoming && target.IsAlive()) return;
+            if (target == null) return;
+            if (isHoming && target.IsAlive())  
             {
                 transform.LookAt(target.transform.position);
             }

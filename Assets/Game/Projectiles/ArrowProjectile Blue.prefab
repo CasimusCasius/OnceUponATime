@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1806024392798573230, guid: 661323f6a5c5f354bb01533843df523d,
         type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+    - target: {fileID: 1806024392798573230, guid: 661323f6a5c5f354bb01533843df523d,
+        type: 3}
       propertyPath: m_Parameters.colorGradient.ctime0
       value: 40670
       objectReference: {fileID: 0}
