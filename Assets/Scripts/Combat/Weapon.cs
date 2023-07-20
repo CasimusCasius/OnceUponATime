@@ -1,4 +1,5 @@
 ﻿using Game.Core;
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,14 +15,18 @@ namespace Game.Combat
         [SerializeField] private bool isRightHanded = true;
         [SerializeField] private Projectile projectile = null;
 
+        const string WEAPON_NAME = "Weapon";
+
         public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {
+            DestroyOldWeapon(rightHand, leftHand);
 
             if (equippedPrefab != null)
-            {
+            {   
                 Transform handTransform = GetHand(rightHand, leftHand);
 
-                Instantiate(equippedPrefab, handTransform);
+                GameObject weapon = Instantiate(equippedPrefab, handTransform);
+                weapon.name = WEAPON_NAME;
             }
             if (animatorOverride != null)
             {
@@ -43,5 +48,18 @@ namespace Game.Combat
         public bool HasProjectile() => projectile != null;
         public float GetWeaponRange() => weaponRange;
         public float GetWeaponDamage() => weaponDamage;
+
+        private void DestroyOldWeapon(Transform rightHand, Transform leftHand)
+        {
+            Transform oldWeapon = rightHand.Find(WEAPON_NAME);
+            if (oldWeapon == null) 
+            {
+                oldWeapon = leftHand.Find(WEAPON_NAME);
+            }
+            if (oldWeapon == null) return;
+
+            oldWeapon.name = " DESTROYING";
+            Destroy(oldWeapon.gameObject);
+        }
     }
 }

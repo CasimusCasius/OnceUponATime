@@ -67,12 +67,12 @@ namespace Game.Combat
             Animator animator = GetComponent<Animator>();
             currentWeapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
+
         public bool CanAttack(GameObject combatTarget)
         {
             return (combatTarget != null && combatTarget.GetComponent<Health>().IsAlive());
-
         }
-
+        public Weapon GetCurrentWeapon() => currentWeapon;
         // animation Events
         public void Hit()
         {
@@ -88,13 +88,9 @@ namespace Game.Combat
         }
 
         public void Shoot()
-        {
-            
-            
+        {                     
             Hit();
         }
-
-
 
         private void StopAttack()
         {
