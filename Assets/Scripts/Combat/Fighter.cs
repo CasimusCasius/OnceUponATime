@@ -20,7 +20,6 @@ namespace Game.Combat
         {
             currentWeapon = defaultWeapon;
             EquipWeapon(defaultWeapon);
-
         }
 
         private void Update()
@@ -62,28 +61,47 @@ namespace Game.Combat
             GetComponent<Mover>().Cancel();
         }
 
-        private void StopAttack()
-        {
-            if (TryGetComponent(out Animator animator))
-                animator.ResetTrigger("attack");
-            animator.SetTrigger("outAttack");
-        }
-
-        // animation Event
-        public void Hit()
-        {
-            if (target == null) return;
-            target.TakeDamage(currentWeapon.GetWeaponDamage());
-
-        }
-
         public void EquipWeapon(Weapon weapon)
         {
             currentWeapon = weapon;
             Animator animator = GetComponent<Animator>();
             currentWeapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
+        public bool CanAttack(GameObject combatTarget)
+        {
+            return (combatTarget != null && combatTarget.GetComponent<Health>().IsAlive());
 
+        }
+
+        // animation Events
+        public void Hit()
+        {
+            if (target == null) return;
+            if (currentWeapon.HasProjectile())
+            {
+                currentWeapon.LaunchProjectile(currentWeapon.GetHand(rightHandTransform, leftHandTransform), target);
+            }
+            else
+            {
+                target.TakeDamage(currentWeapon.GetWeaponDamage());
+            }
+        }
+
+        public void Shoot()
+        {
+            
+            
+            Hit();
+        }
+
+
+
+        private void StopAttack()
+        {
+            if (TryGetComponent(out Animator animator))
+                animator.ResetTrigger("attack");
+            animator.SetTrigger("outAttack");
+        }
         private void AttackBehaviour()
         {
 
@@ -109,16 +127,8 @@ namespace Game.Combat
 
         private bool GetIsInRange()
         {
-            return 
+            return
                 Vector3.Distance(target.transform.position, transform.position) <= currentWeapon.GetWeaponRange();
         }
-
-        public bool CanAttack(GameObject combatTarget)
-        {
-            return (combatTarget != null && combatTarget.GetComponent<Health>().IsAlive());
-
-        }
-
-
     }
 }
