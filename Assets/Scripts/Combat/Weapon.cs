@@ -22,15 +22,21 @@ namespace Game.Combat
             DestroyOldWeapon(rightHand, leftHand);
 
             if (equippedPrefab != null)
-            {   
+            {
                 Transform handTransform = GetHand(rightHand, leftHand);
 
                 GameObject weapon = Instantiate(equippedPrefab, handTransform);
                 weapon.name = WEAPON_NAME;
             }
+
+            var overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
             if (animatorOverride != null)
             {
                 animator.runtimeAnimatorController = animatorOverride;
+            }
+            else if (overrideController != null)
+            {
+                animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;
             }
         }
 
@@ -39,10 +45,10 @@ namespace Game.Combat
             return isRightHanded ? rightHand : leftHand;
         }
 
-        public void LaunchProjectile(Transform hand, Health target) 
-        {  
+        public void LaunchProjectile(Transform hand, Health target)
+        {
             var projectileInstance = Instantiate(projectile, hand.position, Quaternion.identity);
-            projectileInstance.SetTarget(target,GetWeaponDamage());
+            projectileInstance.SetTarget(target, GetWeaponDamage());
         }
 
         public bool HasProjectile() => projectile != null;
@@ -52,7 +58,7 @@ namespace Game.Combat
         private void DestroyOldWeapon(Transform rightHand, Transform leftHand)
         {
             Transform oldWeapon = rightHand.Find(WEAPON_NAME);
-            if (oldWeapon == null) 
+            if (oldWeapon == null)
             {
                 oldWeapon = leftHand.Find(WEAPON_NAME);
             }

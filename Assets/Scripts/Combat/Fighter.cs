@@ -1,16 +1,18 @@
 ﻿using Game.Core;
 using Game.Movement;
+using Game.Saving;
 using UnityEngine;
 
 namespace Game.Combat
 {
 
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] private float timeBetweenAttacks = 1.5f;
         [SerializeField] private Transform rightHandTransform = null;
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Weapon defaultWeapon = null;
+        
         
         private Health target;
         private float timeSinceLastAttack = Mathf.Infinity;
@@ -18,8 +20,10 @@ namespace Game.Combat
 
         private void Start()
         {
-            currentWeapon = defaultWeapon;
-            EquipWeapon(defaultWeapon);
+            if (currentWeapon == null)
+            {
+                EquipWeapon(defaultWeapon);
+            }
         }
 
         private void Update()
@@ -125,6 +129,17 @@ namespace Game.Combat
         {
             return
                 Vector3.Distance(target.transform.position, transform.position) <= currentWeapon.GetWeaponRange();
+        }
+
+        public object CaptureState()
+        {
+            return currentWeapon.name;
+        }
+
+        public void RestoreState(object state)
+        {
+            string weaponName = (string)state;
+            EquipWeapon(Resources.Load<Weapon>(weaponName));
         }
     }
 }

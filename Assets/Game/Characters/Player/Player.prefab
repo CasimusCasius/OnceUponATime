@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3808731647104534030, guid: e63c49a3ab6149c4d813899bdc62ded1,
+        type: 3}
+      propertyPath: healthPoints
+      value: 800
+      objectReference: {fileID: 0}
     - target: {fileID: 514660357487806242, guid: e63c49a3ab6149c4d813899bdc62ded1,
         type: 3}
       propertyPath: weaponDamage
