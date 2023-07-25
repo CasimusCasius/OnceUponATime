@@ -3921,7 +3921,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1811394364}
-  m_LocalRotation: {x: 0.2918318, y: 0.4742598, z: -0.17024389, w: 0.81297535}
+  m_LocalRotation: {x: 0.29183182, y: 0.47425985, z: -0.17024389, w: 0.81297535}
   m_LocalPosition: {x: 16.3, y: 17.1, z: -11.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4740,6 +4740,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1020763781382149121, guid: 2c0bbe431319b2643a25fa54118e0b9f,
+        type: 3}
+      propertyPath: startingLevel
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3616512090345788332, guid: 2c0bbe431319b2643a25fa54118e0b9f,
         type: 3}
       propertyPath: healthPoints

@@ -1,6 +1,4 @@
-﻿using Game.Core;
-using System;
-using UnityEditor;
+﻿using Game.Attribiutes;
 using UnityEngine;
 
 namespace Game.Combat

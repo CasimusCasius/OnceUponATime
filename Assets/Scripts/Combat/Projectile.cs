@@ -1,4 +1,4 @@
-using Game.Core;
+using Game.Attribiutes;
 using UnityEngine;
 
 namespace Game.Combat
@@ -41,7 +41,7 @@ namespace Game.Combat
             var candidateTarget = other.GetComponent<Health>();
             if (candidateTarget != null && candidateTarget == target && candidateTarget.IsAlive())
             {
-                
+
                 target.TakeDamage(damage);
                 speed = 0;
                 if (hitEffect != null)
@@ -49,12 +49,12 @@ namespace Game.Combat
                     Instantiate(hitEffect, target.transform.position, transform.rotation);
                 }
 
-                foreach(var toDestroy in destroyOnHit)
+                foreach (var toDestroy in destroyOnHit)
                 {
                     Destroy(toDestroy);
                 }
 
-                Destroy(gameObject,lifetimeAfterImpact);
+                Destroy(gameObject, lifetimeAfterImpact);
             }
 
         }

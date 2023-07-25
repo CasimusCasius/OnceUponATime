@@ -1,12 +1,12 @@
+using Game.Attribiutes;
 using Game.Combat;
-using Game.Core;
 using Game.Movement;
 using UnityEngine;
 
 
 namespace Game.Control
 {
-    
+
     public class PlayerController : MonoBehaviour
     {
 
@@ -49,11 +49,11 @@ namespace Game.Control
         private bool InteractWithMovement()
         {
 
-            if (Physics.Raycast(GetMouseRay(),out RaycastHit hit))
+            if (Physics.Raycast(GetMouseRay(), out RaycastHit hit))
             {
                 if (Input.GetMouseButton(0))
                 {
-                    
+
                     GetComponent<Mover>().StartMoveAction(hit.point);
 
                 }
