@@ -97,6 +97,10 @@ namespace Game.Combat
             Hit();
         }
 
+        public Health GetTarget() => target;
+
+
+
         private void StopAttack()
         {
             if (TryGetComponent(out Animator animator))

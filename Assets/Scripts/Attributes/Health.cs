@@ -26,6 +26,15 @@ namespace Game.Attribiutes
             }
         }
 
+        public float GetProcentage() 
+        { 
+        
+            return healthPoints * 100 / GetComponent<BaseStats>().GetHealth();
+
+        }
+
+
+
         private void Die()
         {
             isAlive = false;
