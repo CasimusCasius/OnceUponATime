@@ -1,4 +1,4 @@
-using Game.Attribiutes;
+using Game.Attributes;
 using Game.Combat;
 using Game.Movement;
 using UnityEngine;
@@ -22,7 +22,7 @@ namespace Game.Control
             if (myHealth == null || !myHealth.IsAlive()) return;
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
-            print("Nothing happend");
+            //print("Nothing happend");
         }
 
         private bool InteractWithCombat()

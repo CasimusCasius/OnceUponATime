@@ -1,4 +1,4 @@
-﻿using Game.Attribiutes;
+﻿using Game.Attributes;
 using UnityEngine;
 
 namespace Game.Combat
@@ -43,10 +43,10 @@ namespace Game.Combat
             return isRightHanded ? rightHand : leftHand;
         }
 
-        public void LaunchProjectile(Transform hand, Health target)
+        public void LaunchProjectile(Transform hand, Health target, GameObject instigator)
         {
             var projectileInstance = Instantiate(projectile, hand.position, Quaternion.identity);
-            projectileInstance.SetTarget(target, GetWeaponDamage());
+            projectileInstance.SetTarget(target,instigator, GetWeaponDamage());
         }
 
         public bool HasProjectile() => projectile != null;

@@ -1,4 +1,4 @@
-using Game.Attribiutes;
+using Game.Attributes;
 using Game.Combat;
 using Game.Core;
 using Game.Movement;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace Game.Attribiutes
+namespace Game.Attributes
 {
     public class HealthDisplay : MonoBehaviour
     {

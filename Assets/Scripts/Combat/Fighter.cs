@@ -1,4 +1,4 @@
-﻿using Game.Attribiutes;
+﻿using Game.Attributes;
 using Game.Core;
 using Game.Movement;
 using Game.Saving;
@@ -84,11 +84,14 @@ namespace Game.Combat
             if (target == null) return;
             if (currentWeapon.HasProjectile())
             {
-                currentWeapon.LaunchProjectile(currentWeapon.GetHand(rightHandTransform, leftHandTransform), target);
+                currentWeapon.LaunchProjectile(
+                    currentWeapon.GetHand(rightHandTransform, leftHandTransform),
+                    target,
+                    gameObject);
             }
             else
             {
-                target.TakeDamage(currentWeapon.GetWeaponDamage());
+                target.TakeDamage(gameObject, currentWeapon.GetWeaponDamage());
             }
         }
 

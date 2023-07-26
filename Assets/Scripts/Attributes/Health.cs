@@ -1,9 +1,10 @@
+
 using Game.Core;
 using Game.Saving;
 using Game.Stats;
 using UnityEngine;
 
-namespace Game.Attribiutes
+namespace Game.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
@@ -12,37 +13,46 @@ namespace Game.Attribiutes
 
         private void Start()
         {
-            healthPoints = GetComponent<BaseStats>().GetHealth();
+            healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health);
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(GameObject instigator, float damage)
         {
             healthPoints = Mathf.Max(healthPoints - damage, 0);
 
-            print(healthPoints);
+            //print(healthPoints);
             if (healthPoints == 0 && isAlive)
-            {
+            { 
                 Die();
+                AwardExperience(instigator);
             }
         }
 
         public float GetProcentage() 
         { 
         
-            return healthPoints * 100 / GetComponent<BaseStats>().GetHealth();
+            return healthPoints * 100 / GetComponent<BaseStats>().GetStat(Stat.Health);
 
         }
-
-
 
         private void Die()
         {
             isAlive = false;
-            if (TryGetComponent<ActionScheduler>(out ActionScheduler actionScheduler))
+            if (TryGetComponent(out ActionScheduler actionScheduler))
             {
                 actionScheduler.CancelCurrentAction();
             }
+            
             GetComponent<Animator>().SetTrigger("die");
+            GetComponent<Collider>().enabled = false;
+        }
+
+        private void AwardExperience(GameObject instigator)
+        {
+            if (instigator.TryGetComponent(out Experience experience))
+            {
+                experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.Experience));
+            }
         }
 
         public bool IsAlive() => isAlive;
