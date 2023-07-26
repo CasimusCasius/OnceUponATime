@@ -3,7 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-namespace Game.Attributes
+namespace Game.Stats
 {
     public class ExperienceDisplay : MonoBehaviour
     {
@@ -19,7 +19,7 @@ namespace Game.Attributes
         // Update is called once per frame
         void Update()
         {
-            experienceText.text = String.Format($"{experience.GetExperience():0}");
+            experienceText.text = String.Format($"{experience.GetCurrentExperience():0}");
         }
     }
 }

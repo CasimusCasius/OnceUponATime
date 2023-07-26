@@ -27,6 +27,12 @@ namespace Game.Stats
             return levels[level - 1];
         }
 
+        public int GetNumberOfProgressionLevels(Stat stat, CharacterClass characterClass)
+        {
+            BuildLookup();
+            return lookupTable[characterClass][stat].Length;
+        }
+
         private void BuildLookup()
         {
             if (lookupTable != null) return;

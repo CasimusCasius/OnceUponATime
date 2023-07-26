@@ -8,12 +8,13 @@ namespace Game.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
-        [SerializeField] private float healthPoints = 100f;
+        private float healthPoints = -1f;
         private bool isAlive = true;
 
         private void Start()
         {
-            healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health);
+            if (healthPoints < 0f)
+                healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health);
         }
 
         public void TakeDamage(GameObject instigator, float damage)
@@ -22,15 +23,15 @@ namespace Game.Attributes
 
             //print(healthPoints);
             if (healthPoints == 0 && isAlive)
-            { 
+            {
                 Die();
                 AwardExperience(instigator);
             }
         }
 
-        public float GetProcentage() 
-        { 
-        
+        public float GetProcentage()
+        {
+
             return healthPoints * 100 / GetComponent<BaseStats>().GetStat(Stat.Health);
 
         }
@@ -42,7 +43,7 @@ namespace Game.Attributes
             {
                 actionScheduler.CancelCurrentAction();
             }
-            
+
             GetComponent<Animator>().SetTrigger("die");
             GetComponent<Collider>().enabled = false;
         }
@@ -51,7 +52,7 @@ namespace Game.Attributes
         {
             if (instigator.TryGetComponent(out Experience experience))
             {
-                experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.Experience));
+                experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.ExperienceReward));
             }
         }
 

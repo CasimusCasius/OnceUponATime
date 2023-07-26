@@ -37,6 +37,13 @@ namespace Game.Saving
             RestoreState(LoadFile(saveFile));
         }
 
+        public void Delete(string saveFile) 
+        { 
+            string path = GetPathFromSaveFile(saveFile);
+            print("Delete file " + path);
+            File.Delete(path);
+        }
+
         private void SaveFile(string saveFile, object state)
         {
             string path = GetPathFromSaveFile(saveFile);
@@ -47,6 +54,7 @@ namespace Game.Saving
                 formatter.Serialize(stream, state);
             }
         }
+
         private Dictionary<string, object> LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);

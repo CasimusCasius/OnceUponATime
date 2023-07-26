@@ -30,6 +30,10 @@ namespace Game.SceneManagement
             {
                 Load();
             }
+            if(Input.GetKeyDown(KeyCode.Delete))
+            {
+                Delete();
+            }
         }
 
         public void Load()
@@ -40,6 +44,11 @@ namespace Game.SceneManagement
         public void Save()
         {
             GetComponent<SavingSystem>().Save(DEAFULT_SAVEFILE);
+        }
+
+        public void Delete()
+        {
+            GetComponent<SavingSystem>().Delete(DEAFULT_SAVEFILE);
         }
     }
 }
