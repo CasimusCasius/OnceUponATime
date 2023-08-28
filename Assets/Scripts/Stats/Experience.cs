@@ -1,4 +1,5 @@
 ﻿using Game.Saving;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,9 +9,12 @@ namespace Game.Stats
     {
         [SerializeField] float experiencePoint = 0f;
 
+        public event Action onExpirienceGained;
+
         public void GainExperience(float experience)
         {
             experiencePoint += experience;
+            onExpirienceGained();
         }
 
         public float GetCurrentExperience() => experiencePoint;

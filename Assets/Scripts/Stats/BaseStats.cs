@@ -8,27 +8,53 @@ namespace Game.Stats
         [SerializeField] CharacterClass characterClass;
         [SerializeField] Progression progression = null;
 
-        public float GetStat(Stat stat)
+        int currentLevel = 0;
+
+        private void Start()
         {
-            return progression.GetStat(stat, characterClass, GetLevel(stat,characterClass));
+            currentLevel = GetLevel();
+            Experience experience = GetComponent<Experience>();
+            if (experience != null)
+            {
+                experience.onExpirienceGained += UpdateLevel;
+            }
+        }
+        private void UpdateLevel()
+        {
+            int newLevel = CalculateLevel();
+            if (newLevel > currentLevel)
+            {
+                currentLevel = newLevel;
+                Debug.Log("Level up");
+            }
         }
 
-        public int GetLevel(Stat stat, CharacterClass characterClass)
+        public float GetStat(Stat stat)
+        {
+            return progression.GetStat(stat, characterClass, GetLevel());
+        }
+        public int GetLevel()
+        {
+            if (currentLevel<1)
+            {
+                currentLevel =  CalculateLevel();
+            }
+            return currentLevel;
+        }
+        public int CalculateLevel()
         {
             Experience experience = GetComponent<Experience>();
-            if (experience == null) return startingLevel; 
+            if (experience == null) return startingLevel;
             float currentXP = experience.GetCurrentExperience();
 
-            for (int i = 1; i <= progression.GetNumberOfProgressionLevels(stat, characterClass); i++)
+            int penultimateLevel = progression.GetNumberOfProgressionLevels(Stat.PointsToLevelUp, characterClass);
+
+            for (int i = 1; i <= penultimateLevel; i++)
             {
                 if (progression.GetStat(Stat.PointsToLevelUp, characterClass, i) > currentXP)
                     return i;
-
             }
-
-            return progression.GetNumberOfProgressionLevels(stat, characterClass) ;
+            return penultimateLevel + 1;
         }
-
-
     }
 }

@@ -15,7 +15,7 @@ namespace Game.Stats
         }
         private void Update()
         {
-            levelText.text = baseStats.GetLevel(Stat.PointsToLevelUp, CharacterClass.Player).ToString();
+            levelText.text = baseStats.GetLevel().ToString();
         }
     } 
 }
