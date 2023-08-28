@@ -43,10 +43,11 @@ namespace Game.Combat
             return isRightHanded ? rightHand : leftHand;
         }
 
-        public void LaunchProjectile(Transform hand, Health target, GameObject instigator)
+        public void LaunchProjectile(Transform hand, Health target, GameObject instigator, 
+            float calculatedDamage)
         {
             var projectileInstance = Instantiate(projectile, hand.position, Quaternion.identity);
-            projectileInstance.SetTarget(target,instigator, GetWeaponDamage());
+            projectileInstance.SetTarget(target,instigator, calculatedDamage);
         }
 
         public bool HasProjectile() => projectile != null;

@@ -1,12 +1,16 @@
+using System;
 using UnityEngine;
 
 namespace Game.Stats
 {
     public class BaseStats : MonoBehaviour
     {
+        public event Action onLevelUp;
+
         [SerializeField][Range(1, 99)] int startingLevel = 1;
         [SerializeField] CharacterClass characterClass;
         [SerializeField] Progression progression = null;
+        [SerializeField] GameObject levelUpParticleEffect;
 
         int currentLevel = 0;
 
@@ -25,8 +29,15 @@ namespace Game.Stats
             if (newLevel > currentLevel)
             {
                 currentLevel = newLevel;
-                Debug.Log("Level up");
+                LevelUpEffect();
+                onLevelUp();
+
             }
+        }
+
+        private void LevelUpEffect()
+        {
+            Instantiate(levelUpParticleEffect,transform);
         }
 
         public float GetStat(Stat stat)

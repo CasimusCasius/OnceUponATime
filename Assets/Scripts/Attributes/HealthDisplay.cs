@@ -18,7 +18,8 @@ namespace Game.Attributes
 
         private void Update()
         {
-            healthValue.text = String.Format("{0:0}%", health.GetProcentage());
+            healthValue.text = String.Format("{0:0} / {1:0}",
+                health.GetHealthPoints(),health.GetMaxHealthPoints());
         }
 
 

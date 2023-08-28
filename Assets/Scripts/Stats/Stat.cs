@@ -4,7 +4,7 @@
     {
         Health,
         ExperienceReward,
-        PointsToLevelUp
-
+        PointsToLevelUp,
+        Damage
     }
 }

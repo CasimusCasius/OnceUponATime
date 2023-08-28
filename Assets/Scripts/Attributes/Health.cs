@@ -8,17 +8,29 @@ namespace Game.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
+        [SerializeField] float regenerationPercentage = 30f;
         private float healthPoints = -1f;
         private bool isAlive = true;
 
         private void Start()
         {
+            GetComponent<BaseStats>().onLevelUp += Health_onLevelUp;
             if (healthPoints < 0f)
-                healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health);
+                healthPoints = GetMaxHealthPoints();
+
+        }
+
+        private void Health_onLevelUp()
+        {
+            float regenHP = GetMaxHealthPoints() * (regenerationPercentage / 100);
+            healthPoints = Mathf.Min(healthPoints + regenHP,
+                GetMaxHealthPoints());
         }
 
         public void TakeDamage(GameObject instigator, float damage)
         {
+            Debug.Log(gameObject.name + " took damage: " +  damage);
+
             healthPoints = Mathf.Max(healthPoints - damage, 0);
 
             //print(healthPoints);
@@ -29,12 +41,13 @@ namespace Game.Attributes
             }
         }
 
-        public float GetProcentage()
-        {
+        public float GetProcentage() => 
+            healthPoints * 100 / GetMaxHealthPoints();
 
-            return healthPoints * 100 / GetComponent<BaseStats>().GetStat(Stat.Health);
+        public float GetHealthPoints() => healthPoints;
 
-        }
+        public float GetMaxHealthPoints() => GetComponent<BaseStats>().GetStat(Stat.Health);
+
 
         private void Die()
         {

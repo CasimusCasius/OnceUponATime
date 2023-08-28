@@ -22,7 +22,9 @@ namespace Game.Combat
         {
 
             if (fighter.GetTarget() != null)
-                healthValue.text = String.Format("{0:0}%", fighter.GetTarget().GetProcentage());
+                healthValue.text = String.Format("{0:0} / {1:0}",
+                    fighter.GetTarget().GetHealthPoints(),
+                    fighter.GetTarget().GetMaxHealthPoints());
             else
                 healthValue.text = "N/A";
 

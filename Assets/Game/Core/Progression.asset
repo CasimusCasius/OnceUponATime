@@ -24,10 +24,17 @@ MonoBehaviour:
       - 1000
     - stat: 2
       levels:
+      - 10
       - 20
-      - 60
-      - 150
-      - 250
+      - 40
+      - 80
+    - stat: 3
+      levels:
+      - 5
+      - 7
+      - 10
+      - 15
+      - 20
   - characterClass: 1
     stats:
     - stat: 0

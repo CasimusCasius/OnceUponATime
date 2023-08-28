@@ -11,7 +11,11 @@ namespace Game.SceneManagement
 
         [SerializeField] float fadeInTime = 0.2f;
 
-        private IEnumerator Start()
+        private void Awake()
+        {
+            StartCoroutine(LoadLastScene());
+        }
+        private IEnumerator LoadLastScene()
         {
             var fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate();
