@@ -37,22 +37,39 @@ namespace Game.Stats
 
         private void LevelUpEffect()
         {
-            Instantiate(levelUpParticleEffect,transform);
+            Instantiate(levelUpParticleEffect, transform);
         }
 
         public float GetStat(Stat stat)
         {
-            return progression.GetStat(stat, characterClass, GetLevel());
+            return progression.GetStat(stat, characterClass, GetLevel()) + GetAdditiveModifier(stat);
         }
+
         public int GetLevel()
         {
-            if (currentLevel<1)
+            if (currentLevel < 1)
             {
-                currentLevel =  CalculateLevel();
+                currentLevel = CalculateLevel();
             }
             return currentLevel;
         }
-        public int CalculateLevel()
+
+        private float GetAdditiveModifier(Stat stat)
+        {
+            float total = 0;
+            IModifierProvider[] providers= GetComponents<IModifierProvider>();
+            foreach (IModifierProvider provider in providers)
+            {
+                foreach (float modifier in provider.GetAdditiveModifier(stat))
+                {
+                    total += modifier;
+                }
+            }
+            return total;
+
+        }
+
+        private int CalculateLevel()
         {
             Experience experience = GetComponent<Experience>();
             if (experience == null) return startingLevel;

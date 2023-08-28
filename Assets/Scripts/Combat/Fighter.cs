@@ -3,12 +3,13 @@ using Game.Core;
 using Game.Movement;
 using Game.Saving;
 using Game.Stats;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Combat
 {
 
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         [SerializeField] private float timeBetweenAttacks = 1.5f;
         [SerializeField] private Transform rightHandTransform = null;
@@ -107,14 +108,21 @@ namespace Game.Combat
 
         public Health GetTarget() => target;
 
-
-
         private void StopAttack()
         {
             if (TryGetComponent(out Animator animator))
                 animator.ResetTrigger("attack");
             animator.SetTrigger("outAttack");
         }
+
+        public IEnumerable<float> GetAdditiveModifier(Stat stat)
+        {
+            if (stat==Stat.Damage)
+            {
+                yield return currentWeapon.GetWeaponDamage();
+            }
+        }
+
         private void AttackBehaviour()
         {
 
@@ -144,15 +152,20 @@ namespace Game.Combat
                 Vector3.Distance(target.transform.position, transform.position) <= currentWeapon.GetWeaponRange();
         }
 
+
         public object CaptureState()
         {
             return currentWeapon.name;
         }
+
+
 
         public void RestoreState(object state)
         {
             string weaponName = (string)state;
             EquipWeapon(Resources.Load<Weapon>(weaponName));
         }
+
+
     }
 }
