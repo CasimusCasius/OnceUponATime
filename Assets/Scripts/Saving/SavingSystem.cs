@@ -14,13 +14,12 @@ namespace Game.Saving
         public IEnumerator LoadLastScene(string saveFile)
         {
             var state = LoadFile(saveFile);
+            int lastSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
             if (state != null && state.ContainsKey("lastSceneBuildIndex"))
             {
-                int lastSceneBuildIndex = (int)state["lastSceneBuildIndex"];
-
-                if (lastSceneBuildIndex != SceneManager.GetActiveScene().buildIndex)
-                    yield return SceneManager.LoadSceneAsync(lastSceneBuildIndex);
+               lastSceneBuildIndex = (int)state["lastSceneBuildIndex"]; 
             }
+            yield return SceneManager.LoadSceneAsync(lastSceneBuildIndex);
             RestoreState(state);
         }
 

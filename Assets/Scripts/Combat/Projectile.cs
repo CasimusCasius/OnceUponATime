@@ -20,7 +20,7 @@ namespace Game.Combat
             transform.LookAt(target.transform.position);
             Destroy(gameObject, maxLifeTime);
         }
-        // Update is called once per frame
+     
         void Update()
         {
             if (target == null) return;

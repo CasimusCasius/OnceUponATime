@@ -1,3 +1,4 @@
+using RPG.Utils;
 using System;
 using UnityEngine;
 
@@ -13,23 +14,40 @@ namespace Game.Stats
         [SerializeField] GameObject levelUpParticleEffect;
         [SerializeField] bool shouldUseModifiers = false;
 
-        int currentLevel = 0;
+        LazyValue<int> currentLevel;
 
-        private void Start()
+        Experience experience;
+
+        private void Awake()
         {
-            currentLevel = GetLevel();
-            if (TryGetComponent<Experience>(out var experience))
+            experience = GetComponent<Experience>();
+            currentLevel = new LazyValue<int>(GetLevel);
+        }
+        private void OnEnable()
+        {
+            if (experience != null)
             {
                 experience.onExpirienceGained += UpdateLevel;
             }
         }
+        private void Start()
+        {
+            currentLevel.ForceInit();
+        }
 
+        private void OnDisable()
+        {
+            if (experience != null)
+            {
+                experience.onExpirienceGained -= UpdateLevel;
+            }
+        }
         private void UpdateLevel()
         {
             int newLevel = CalculateLevel();
-            if (newLevel > currentLevel)
+            if (newLevel > currentLevel.value)
             {
-                currentLevel = newLevel;
+                currentLevel.value = newLevel;
                 LevelUpEffect();
                 onLevelUp();
 
@@ -55,11 +73,7 @@ namespace Game.Stats
 
         public int GetLevel()
         {
-            if (currentLevel < 1)
-            {
-                currentLevel = CalculateLevel();
-            }
-            return currentLevel;
+            return currentLevel.value;
         }
 
         private float GetAdditiveModifier(Stat stat)

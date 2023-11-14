@@ -2,6 +2,7 @@ using Game.Attributes;
 using Game.Combat;
 using Game.Core;
 using Game.Movement;
+using RPG.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,9 +22,8 @@ namespace Game.Control
         private GameObject player;
         private Health myHealth;
         private Mover mover;
-        private NavMeshAgent navMeshAgent;
-
-        Vector3 guardingPosition;
+        
+        LazyValue<Vector3> guardingPosition;
         float timeSinceLastSawPlayer = Mathf.Infinity;
         int currentWaypointIndex = 0;
         float timeSinceReachWaypoint = Mathf.Infinity;
@@ -33,15 +33,15 @@ namespace Game.Control
             fighter = GetComponent<Fighter>();
             myHealth = GetComponent<Health>();
             mover = GetComponent<Mover>();
-            navMeshAgent = GetComponent<NavMeshAgent>();
-
-            guardingPosition = transform.position;
+         
+            player = GameObject.FindWithTag("Player");
+            guardingPosition = new LazyValue<Vector3>(GetPosition);
         }
 
         
         private void Start()
         {
-            player = GameObject.FindWithTag("Player");
+            guardingPosition.ForceInit();
         }
 
         private void Update()
@@ -60,6 +60,11 @@ namespace Game.Control
                 PatrolBehaviour();
             }
             UpdateTimers();
+        }
+        
+        private Vector3 GetPosition()
+        {
+            return transform.position;
         }
 
         private void UpdateTimers()
@@ -82,7 +87,7 @@ namespace Game.Control
 
         private void PatrolBehaviour()
         {
-            Vector3 nextPosition = guardingPosition;
+            Vector3 nextPosition = guardingPosition.value;
             mover.SetMovementSpeed(patrolSpeedFraction);
             if (patrolPath != null)
             {

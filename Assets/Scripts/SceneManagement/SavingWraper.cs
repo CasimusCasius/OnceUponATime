@@ -17,9 +17,9 @@ namespace Game.SceneManagement
         }
         private IEnumerator LoadLastScene()
         {
+            yield return GetComponent<SavingSystem>().LoadLastScene(DEAFULT_SAVEFILE);
             var fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate();
-            yield return GetComponent<SavingSystem>().LoadLastScene(DEAFULT_SAVEFILE);
             yield return fader.FadeIn(fadeInTime);
         }
 
