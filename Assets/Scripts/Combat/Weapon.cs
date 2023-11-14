@@ -10,6 +10,7 @@ namespace Game.Combat
         [SerializeField] private GameObject equippedPrefab = null;
         [SerializeField] private float weaponRange = 3f;
         [SerializeField] private float weaponDamage = 20f;
+        [SerializeField] private float percentageBonus = 0f;
         [SerializeField] private bool isRightHanded = true;
         [SerializeField] private Projectile projectile = null;
 
@@ -53,6 +54,7 @@ namespace Game.Combat
         public bool HasProjectile() => projectile != null;
         public float GetWeaponRange() => weaponRange;
         public float GetWeaponDamage() => weaponDamage;
+        public float GetPercentageBonus() => percentageBonus;
 
         private void DestroyOldWeapon(Transform rightHand, Transform leftHand)
         {
