@@ -4,7 +4,10 @@
     {
         Player,
         Grunt,
-        Mage,
-        Archer
+        HeavySolider,
+        Minion,
+        Thug,
+        Archer,
+        Knight
     }
 }
