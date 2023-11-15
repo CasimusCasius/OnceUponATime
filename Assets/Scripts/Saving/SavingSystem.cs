@@ -14,13 +14,12 @@ namespace Game.Saving
         public IEnumerator LoadLastScene(string saveFile)
         {
             var state = LoadFile(saveFile);
+            int lastSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
             if (state != null && state.ContainsKey("lastSceneBuildIndex"))
             {
-                int lastSceneBuildIndex = (int)state["lastSceneBuildIndex"];
-
-                if (lastSceneBuildIndex != SceneManager.GetActiveScene().buildIndex)
-                    yield return SceneManager.LoadSceneAsync(lastSceneBuildIndex);
+               lastSceneBuildIndex = (int)state["lastSceneBuildIndex"]; 
             }
+            yield return SceneManager.LoadSceneAsync(lastSceneBuildIndex);
             RestoreState(state);
         }
 
@@ -37,6 +36,13 @@ namespace Game.Saving
             RestoreState(LoadFile(saveFile));
         }
 
+        public void Delete(string saveFile) 
+        { 
+            string path = GetPathFromSaveFile(saveFile);
+            print("Delete file " + path);
+            File.Delete(path);
+        }
+
         private void SaveFile(string saveFile, object state)
         {
             string path = GetPathFromSaveFile(saveFile);
@@ -47,6 +53,7 @@ namespace Game.Saving
                 formatter.Serialize(stream, state);
             }
         }
+
         private Dictionary<string, object> LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);

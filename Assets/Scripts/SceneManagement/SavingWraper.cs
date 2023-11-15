@@ -11,11 +11,15 @@ namespace Game.SceneManagement
 
         [SerializeField] float fadeInTime = 0.2f;
 
-        private IEnumerator Start()
+        private void Awake()
         {
+            StartCoroutine(LoadLastScene());
+        }
+        private IEnumerator LoadLastScene()
+        {
+            yield return GetComponent<SavingSystem>().LoadLastScene(DEAFULT_SAVEFILE);
             var fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate();
-            yield return GetComponent<SavingSystem>().LoadLastScene(DEAFULT_SAVEFILE);
             yield return fader.FadeIn(fadeInTime);
         }
 
@@ -30,6 +34,10 @@ namespace Game.SceneManagement
             {
                 Load();
             }
+            if(Input.GetKeyDown(KeyCode.Delete))
+            {
+                Delete();
+            }
         }
 
         public void Load()
@@ -40,6 +48,11 @@ namespace Game.SceneManagement
         public void Save()
         {
             GetComponent<SavingSystem>().Save(DEAFULT_SAVEFILE);
+        }
+
+        public void Delete()
+        {
+            GetComponent<SavingSystem>().Delete(DEAFULT_SAVEFILE);
         }
     }
 }

@@ -1,29 +1,41 @@
-﻿using Game.Core;
+﻿using Game.Attributes;
+using Game.Core;
 using Game.Movement;
 using Game.Saving;
+using Game.Stats;
+using RPG.Utils;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Combat
 {
 
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         [SerializeField] private float timeBetweenAttacks = 1.5f;
         [SerializeField] private Transform rightHandTransform = null;
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Weapon defaultWeapon = null;
         
-        
         private Health target;
         private float timeSinceLastAttack = Mathf.Infinity;
-        private Weapon currentWeapon;
+        private LazyValue<Weapon> currentWeapon;
+
+        private void Awake()
+        {
+            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
+        }
+
+        private Weapon SetupDefaultWeapon()
+        {
+            AttachWeapon(defaultWeapon);
+            return defaultWeapon;
+        }
 
         private void Start()
         {
-            if (currentWeapon == null)
-            {
-                EquipWeapon(defaultWeapon);
-            }
+            currentWeapon.ForceInit();
         }
 
         private void Update()
@@ -67,27 +79,40 @@ namespace Game.Combat
 
         public void EquipWeapon(Weapon weapon)
         {
-            currentWeapon = weapon;
+            currentWeapon.value = weapon;
+            AttachWeapon(weapon);
+        }
+
+        private void AttachWeapon(Weapon weapon)
+        {
             Animator animator = GetComponent<Animator>();
-            currentWeapon.Spawn(rightHandTransform, leftHandTransform, animator);
+            weapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
 
         public bool CanAttack(GameObject combatTarget)
         {
             return (combatTarget != null && combatTarget.GetComponent<Health>().IsAlive());
         }
-        public Weapon GetCurrentWeapon() => currentWeapon;
+        public Weapon GetCurrentWeapon() => currentWeapon.value;
+
         // animation Events
         public void Hit()
         {
             if (target == null) return;
-            if (currentWeapon.HasProjectile())
+
+            float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
+            if (currentWeapon.value.HasProjectile())
             {
-                currentWeapon.LaunchProjectile(currentWeapon.GetHand(rightHandTransform, leftHandTransform), target);
+                currentWeapon.value.LaunchProjectile(
+                    currentWeapon.value.GetHand(rightHandTransform, leftHandTransform),
+                    target,
+                    gameObject,
+                    damage);
             }
             else
             {
-                target.TakeDamage(currentWeapon.GetWeaponDamage());
+                
+                target.TakeDamage(gameObject, damage);
             }
         }
 
@@ -96,12 +121,30 @@ namespace Game.Combat
             Hit();
         }
 
+        public Health GetTarget() => target;
+
         private void StopAttack()
         {
             if (TryGetComponent(out Animator animator))
                 animator.ResetTrigger("attack");
             animator.SetTrigger("outAttack");
         }
+
+        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
+        {
+            if (stat==Stat.Damage)
+            {
+                yield return currentWeapon.value.GetWeaponDamage();
+            }
+        }
+        public IEnumerable<float> GetPercentageModifiers(Stat stat)
+        {
+            if (stat==Stat.Damage)
+            {
+                yield return currentWeapon.value.GetPercentageBonus();
+            }
+        }
+
         private void AttackBehaviour()
         {
 
@@ -128,12 +171,13 @@ namespace Game.Combat
         private bool GetIsInRange()
         {
             return
-                Vector3.Distance(target.transform.position, transform.position) <= currentWeapon.GetWeaponRange();
+                Vector3.Distance(target.transform.position, transform.position) <= 
+                currentWeapon.value.GetWeaponRange();
         }
 
         public object CaptureState()
         {
-            return currentWeapon.name;
+            return currentWeapon.value.name;
         }
 
         public void RestoreState(object state)

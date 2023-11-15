@@ -1,4 +1,4 @@
-using Game.Core;
+using Game.Attributes;
 using UnityEngine;
 
 namespace Game.Combat
@@ -13,13 +13,14 @@ namespace Game.Combat
         [SerializeField] float lifetimeAfterImpact = 2f;
         Health target = null;
         float damage = 0;
+        GameObject instigator = null;
 
         private void Start()
         {
             transform.LookAt(target.transform.position);
             Destroy(gameObject, maxLifeTime);
         }
-        // Update is called once per frame
+     
         void Update()
         {
             if (target == null) return;
@@ -30,10 +31,11 @@ namespace Game.Combat
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
 
-        public void SetTarget(Health target, float damage)
+        public void SetTarget(Health target, GameObject instigator, float damage)
         {
             this.target = target;
             this.damage = damage;
+            this.instigator = instigator;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -41,20 +43,20 @@ namespace Game.Combat
             var candidateTarget = other.GetComponent<Health>();
             if (candidateTarget != null && candidateTarget == target && candidateTarget.IsAlive())
             {
-                
-                target.TakeDamage(damage);
+
+                target.TakeDamage(instigator, damage);
                 speed = 0;
                 if (hitEffect != null)
                 {
                     Instantiate(hitEffect, target.transform.position, transform.rotation);
                 }
 
-                foreach(var toDestroy in destroyOnHit)
+                foreach (var toDestroy in destroyOnHit)
                 {
                     Destroy(toDestroy);
                 }
 
-                Destroy(gameObject,lifetimeAfterImpact);
+                Destroy(gameObject, lifetimeAfterImpact);
             }
 
         }

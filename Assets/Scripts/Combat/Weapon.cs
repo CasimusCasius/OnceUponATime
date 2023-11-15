@@ -1,6 +1,4 @@
-﻿using Game.Core;
-using System;
-using UnityEditor;
+﻿using Game.Attributes;
 using UnityEngine;
 
 namespace Game.Combat
@@ -12,6 +10,7 @@ namespace Game.Combat
         [SerializeField] private GameObject equippedPrefab = null;
         [SerializeField] private float weaponRange = 3f;
         [SerializeField] private float weaponDamage = 20f;
+        [SerializeField] private float percentageBonus = 0f;
         [SerializeField] private bool isRightHanded = true;
         [SerializeField] private Projectile projectile = null;
 
@@ -45,15 +44,17 @@ namespace Game.Combat
             return isRightHanded ? rightHand : leftHand;
         }
 
-        public void LaunchProjectile(Transform hand, Health target)
+        public void LaunchProjectile(Transform hand, Health target, GameObject instigator, 
+            float calculatedDamage)
         {
             var projectileInstance = Instantiate(projectile, hand.position, Quaternion.identity);
-            projectileInstance.SetTarget(target, GetWeaponDamage());
+            projectileInstance.SetTarget(target,instigator, calculatedDamage);
         }
 
         public bool HasProjectile() => projectile != null;
         public float GetWeaponRange() => weaponRange;
         public float GetWeaponDamage() => weaponDamage;
+        public float GetPercentageBonus() => percentageBonus;
 
         private void DestroyOldWeapon(Transform rightHand, Transform leftHand)
         {

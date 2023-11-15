@@ -1,4 +1,5 @@
 
+using Game.Attributes;
 using Game.Core;
 using Game.Saving;
 using UnityEngine;
@@ -40,7 +41,7 @@ namespace Game.Movement
         public void Cancel()
         {
             navMeshAgent.isStopped = true;
-            Debug.Log(this);
+            //Debug.Log(this);
         }
 
         public void StartMoveAction(Vector3 destination)
