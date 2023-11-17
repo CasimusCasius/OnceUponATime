@@ -21,7 +21,7 @@ namespace Game.Stats
         private void Awake()
         {
             experience = GetComponent<Experience>();
-            currentLevel = new LazyValue<int>(GetLevel);
+            currentLevel = new LazyValue<int>(CalculateLevel);
         }
         private void OnEnable()
         {
@@ -63,8 +63,6 @@ namespace Game.Stats
         {
             return (GetBaseStat(stat) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat)/100);
         }
-
-
 
         private float GetBaseStat(Stat stat)
         {
