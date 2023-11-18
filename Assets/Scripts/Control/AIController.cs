@@ -4,7 +4,6 @@ using Game.Core;
 using Game.Movement;
 using RPG.Utils;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Game.Control
 {
@@ -22,7 +21,7 @@ namespace Game.Control
         private GameObject player;
         private Health myHealth;
         private Mover mover;
-        
+
         LazyValue<Vector3> guardingPosition;
         float timeSinceLastSawPlayer = Mathf.Infinity;
         int currentWaypointIndex = 0;
@@ -33,12 +32,12 @@ namespace Game.Control
             fighter = GetComponent<Fighter>();
             myHealth = GetComponent<Health>();
             mover = GetComponent<Mover>();
-         
+
             player = GameObject.FindWithTag("Player");
             guardingPosition = new LazyValue<Vector3>(GetPosition);
         }
 
-        
+
         private void Start()
         {
             guardingPosition.ForceInit();
@@ -61,7 +60,7 @@ namespace Game.Control
             }
             UpdateTimers();
         }
-        
+
         private Vector3 GetPosition()
         {
             return transform.position;

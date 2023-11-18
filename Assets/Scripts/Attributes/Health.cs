@@ -41,7 +41,7 @@ namespace Game.Attributes
 
         public void TakeDamage(GameObject instigator, float damage)
         {
-            Debug.Log(gameObject.name + " took damage: " +  damage);
+            //Debug.Log(gameObject.name + " took damage: " +  damage);
 
             healthPoints.value = Mathf.Max(healthPoints.value - damage, 0);
 

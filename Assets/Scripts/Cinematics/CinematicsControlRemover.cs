@@ -1,7 +1,5 @@
 using Game.Control;
 using Game.Core;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -34,7 +32,7 @@ namespace Game.Cinematics
         }
 
         void EnabledControl(PlayableDirector playableDirector)
-        { 
+        {
             player.GetComponent<PlayerController>().enabled = true;
         }
 

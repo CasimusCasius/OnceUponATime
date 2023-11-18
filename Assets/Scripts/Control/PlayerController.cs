@@ -1,8 +1,8 @@
 using Game.Attributes;
 using Game.Combat;
 using Game.Movement;
-using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Game.Control
 {
@@ -13,7 +13,8 @@ namespace Game.Control
         {
             None,
             Movement,
-            Combat
+            Combat,
+            UI
         }
 
         [System.Serializable]
@@ -32,15 +33,45 @@ namespace Game.Control
             myHealth = GetComponent<Health>();
         }
 
-       
+
 
         void Update()
         {
-            if (myHealth == null || !myHealth.IsAlive()) return;
+            if (InteractWithUI()) return;
+            if (myHealth == null || !myHealth.IsAlive())
+            {
+                SetCursor(CursorType.None);
+                return;
+            }
+            if (InteractWithComponent()) return;
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
             //print("Nothing happend");
             SetCursor(CursorType.None);
+        }
+
+        private bool InteractWithComponent()
+        {
+            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            foreach (RaycastHit hit in hits)
+            {
+                IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
+                foreach (var raycastable in raycastables)
+                {
+                    if (raycastable.HandleRaycast(this))
+                    {
+                        SetCursor(CursorType.Combat);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private bool InteractWithUI()
+        {
+            SetCursor(CursorType.UI);
+            return EventSystem.current.IsPointerOverGameObject();
         }
 
         private bool InteractWithCombat()
@@ -92,7 +123,7 @@ namespace Game.Control
         {
             foreach (CursorMapping mapping in cursorMappings)
             {
-                if( mapping.type == type)
+                if (mapping.type == type)
                 {
                     return mapping;
                 }

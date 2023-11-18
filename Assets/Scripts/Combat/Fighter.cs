@@ -4,7 +4,6 @@ using Game.Movement;
 using Game.Saving;
 using Game.Stats;
 using RPG.Utils;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ namespace Game.Combat
         [SerializeField] private Transform rightHandTransform = null;
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Weapon defaultWeapon = null;
-        
+
         private Health target;
         private float timeSinceLastAttack = Mathf.Infinity;
         private LazyValue<Weapon> currentWeapon;
@@ -111,13 +110,13 @@ namespace Game.Combat
             }
             else
             {
-                
+
                 target.TakeDamage(gameObject, damage);
             }
         }
 
         public void Shoot()
-        {                     
+        {
             Hit();
         }
 
@@ -132,14 +131,14 @@ namespace Game.Combat
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
-            if (stat==Stat.Damage)
+            if (stat == Stat.Damage)
             {
                 yield return currentWeapon.value.GetWeaponDamage();
             }
         }
         public IEnumerable<float> GetPercentageModifiers(Stat stat)
         {
-            if (stat==Stat.Damage)
+            if (stat == Stat.Damage)
             {
                 yield return currentWeapon.value.GetPercentageBonus();
             }
@@ -171,7 +170,7 @@ namespace Game.Combat
         private bool GetIsInRange()
         {
             return
-                Vector3.Distance(target.transform.position, transform.position) <= 
+                Vector3.Distance(target.transform.position, transform.position) <=
                 currentWeapon.value.GetWeaponRange();
         }
 

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +6,7 @@ namespace Game.Attributes
 {
     public class HealthDisplay : MonoBehaviour
     {
-        [SerializeField] TextMeshProUGUI healthValue = null ;
+        [SerializeField] TextMeshProUGUI healthValue = null;
         Health health;
 
         private void Awake()
@@ -19,9 +17,9 @@ namespace Game.Attributes
         private void Update()
         {
             healthValue.text = String.Format("{0:0} / {1:0}",
-                health.GetHealthPoints(),health.GetMaxHealthPoints());
+                health.GetHealthPoints(), health.GetMaxHealthPoints());
         }
 
 
-    } 
+    }
 }
