@@ -186,7 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorMappings:
   - type: 0
-    texture: {fileID: 2800000, guid: bb57a4c5a1ec38a41949d0975ede9ac1, type: 3}
+    texture: {fileID: 2800000, guid: fe10844f3350e5f419c129761e84a103, type: 3}
     hotspot: {x: 0, y: 0}
   - type: 1
     texture: {fileID: 2800000, guid: 8565063079ea8204eaeb228bc3d8b92d, type: 3}
@@ -200,6 +200,7 @@ MonoBehaviour:
   - type: 4
     texture: {fileID: 2800000, guid: e43eb6dc9e9ce1f47bac91c53a5246fc, type: 3}
     hotspot: {x: 32, y: 32}
+  navMeshSearchingDistance: 1
 --- !u!1001 &1730583128396033692
 PrefabInstance:
   m_ObjectHideFlags: 0

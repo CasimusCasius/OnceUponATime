@@ -13,9 +13,9 @@ namespace Game.Combat
             if (Input.GetMouseButton(0) && fighter.CanAttack(this.gameObject))
             {
                 fighter.Attack(this.gameObject);
-                return true;
+                
             }
-            return false;
+            return true;
         }
 
         public ECursorType GetCursorType() => ECursorType.Combat;
