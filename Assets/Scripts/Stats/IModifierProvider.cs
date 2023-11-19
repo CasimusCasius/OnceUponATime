@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Game.Stats
 {
     public interface IModifierProvider
     {
-        IEnumerable<float> GetAdditiveModifiers(Stat stat);
-        IEnumerable<float> GetPercentageModifiers(Stat stat);
-
+        IEnumerable<float> GetAdditiveModifiers(EStat stat);
+        IEnumerable<float> GetPercentageModifiers(EStat stat);
     }
 }

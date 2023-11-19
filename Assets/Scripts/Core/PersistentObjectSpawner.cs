@@ -1,22 +1,18 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Core
 {
-	public class PersistentObjectSpawner : MonoBehaviour
-	{
-		[SerializeField] GameObject persistentObjectPrefab;
+    public class PersistentObjectSpawner : MonoBehaviour
+    {
+        [SerializeField] GameObject persistentObjectPrefab;
 
-        static bool hasSpawned =false;
+        static bool hasSpawned = false;
 
         private void Awake()
         {
-            if(hasSpawned) { return; }
+            if (hasSpawned) { return; }
             SpawnPersistentObject();
             hasSpawned = true;
-
         }
 
         private void SpawnPersistentObject()
@@ -25,5 +21,4 @@ namespace Game.Core
             DontDestroyOnLoad(persistentObject);
         }
     }
-
 }

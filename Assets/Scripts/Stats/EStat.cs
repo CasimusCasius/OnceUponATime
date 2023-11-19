@@ -1,6 +1,6 @@
 ﻿namespace Game.Stats
 {
-    public enum Stat
+    public enum EStat
     {
         Health,
         ExperienceReward,

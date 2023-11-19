@@ -1,10 +1,9 @@
 ﻿using Game.Saving;
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Game.Stats
-{ 
+{
     public class Experience : MonoBehaviour, ISaveable
     {
         [SerializeField] float experiencePoint = 0f;
@@ -26,7 +25,7 @@ namespace Game.Stats
 
         public void RestoreState(object state)
         {
-            experiencePoint = (float) state;
+            experiencePoint = (float)state;
         }
     }
 }

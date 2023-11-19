@@ -1,6 +1,5 @@
 using Game.Saving;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.SceneManagement
@@ -25,7 +24,6 @@ namespace Game.SceneManagement
 
         private void Update()
         {
-
             if (Input.GetKeyDown(KeyCode.F5))
             {
                 Save();
@@ -34,7 +32,7 @@ namespace Game.SceneManagement
             {
                 Load();
             }
-            if(Input.GetKeyDown(KeyCode.Delete))
+            if (Input.GetKeyDown(KeyCode.Delete))
             {
                 Delete();
             }

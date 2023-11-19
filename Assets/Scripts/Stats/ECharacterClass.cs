@@ -1,6 +1,6 @@
 ﻿namespace Game.Stats
 {
-    public enum CharacterClass
+    public enum ECharacterClass
     {
         Player,
         Grunt,

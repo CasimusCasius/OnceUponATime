@@ -58,7 +58,7 @@ namespace Game.Attributes
 
         public float GetHealthPoints() => healthPoints.value;
 
-        public float GetMaxHealthPoints() => GetComponent<BaseStats>().GetStat(Stat.Health);
+        public float GetMaxHealthPoints() => GetComponent<BaseStats>().GetStat(EStat.Health);
 
 
         private void Die()
@@ -77,7 +77,7 @@ namespace Game.Attributes
         {
             if (instigator.TryGetComponent(out Experience experience))
             {
-                experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.ExperienceReward));
+                experience.GainExperience(GetComponent<BaseStats>().GetStat(EStat.ExperienceReward));
             }
         }
 

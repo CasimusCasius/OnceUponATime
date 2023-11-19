@@ -1,4 +1,3 @@
-
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,15 +7,14 @@ namespace Game.SceneManagement
 {
     public class Portal : MonoBehaviour
     {
-        enum DestinationIdentifier
+        enum EDestinationIdentifier
         {
             A, B, C, D, E, F, G
-
         }
 
         [SerializeField] private int sceneToLoadIndex = -1;
         [SerializeField] private Transform spawnPoint;
-        [SerializeField] private DestinationIdentifier destination;
+        [SerializeField] private EDestinationIdentifier destination;
         [SerializeField] float fadeInTime = 2f;
         [SerializeField] float fadeOutTime = 1f;
         [SerializeField] float fadeWaitTime = 0.5f;
@@ -25,7 +23,6 @@ namespace Game.SceneManagement
         {
             if (other.gameObject.CompareTag("Player"))
             {
-
                 StartCoroutine(Transition());
             }
         }
@@ -92,5 +89,4 @@ namespace Game.SceneManagement
             player.transform.rotation = portalSpawnPoint.rotation;
         }
     }
-
 }

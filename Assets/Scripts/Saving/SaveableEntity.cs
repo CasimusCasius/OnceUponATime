@@ -42,11 +42,9 @@ namespace Game.Saving
                 globalLookup.Remove(candidate);
                 return true;
             }
-
             return false;
         }
 #endif
-
         public string GetUniqueIdentifier()
         {
             return uniqueIdenntifier;
@@ -60,21 +58,17 @@ namespace Game.Saving
                 state[saveable.GetType().ToString()] = saveable.CaptureState();
             }
             return state;
-
         }
 
         public void RestoreState(object state)
         {
-            Dictionary<string, object> restoreState = state as Dictionary<string, object>;
-            if (restoreState == null) return;
+            if (state is not Dictionary<string, object> restoreState) return;
             foreach (var saveable in GetComponents<ISaveable>())
             {
                 string typeString = saveable.GetType().ToString();
                 if (restoreState.ContainsKey(typeString))
                     saveable.RestoreState(restoreState[typeString]);
             }
-
-
         }
     }
 }

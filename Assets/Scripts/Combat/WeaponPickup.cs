@@ -48,5 +48,7 @@ namespace Game.Combat
             }
             return true;
         }
+
+        public ECursorType GetCursorType() => ECursorType.Pickup;
     }
 }

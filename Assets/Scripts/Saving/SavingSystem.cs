@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -8,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 namespace Game.Saving
 {
-
     public class SavingSystem : MonoBehaviour
     {
         public IEnumerator LoadLastScene(string saveFile)
@@ -17,7 +15,7 @@ namespace Game.Saving
             int lastSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
             if (state != null && state.ContainsKey("lastSceneBuildIndex"))
             {
-               lastSceneBuildIndex = (int)state["lastSceneBuildIndex"]; 
+                lastSceneBuildIndex = (int)state["lastSceneBuildIndex"];
             }
             yield return SceneManager.LoadSceneAsync(lastSceneBuildIndex);
             RestoreState(state);
@@ -36,8 +34,8 @@ namespace Game.Saving
             RestoreState(LoadFile(saveFile));
         }
 
-        public void Delete(string saveFile) 
-        { 
+        public void Delete(string saveFile)
+        {
             string path = GetPathFromSaveFile(saveFile);
             print("Delete file " + path);
             File.Delete(path);

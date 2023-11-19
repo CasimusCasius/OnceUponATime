@@ -1,25 +1,21 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Stats
 {
-
     [CreateAssetMenu(fileName = "Progression", menuName = "Stats/New Progression", order = 1)]
     public class Progression : ScriptableObject
     {
         [SerializeField] ProgressionCharacterClass[] characterClass;
-        Dictionary<CharacterClass, Dictionary<Stat, float[]>> lookupTable = null;
+        Dictionary<ECharacterClass, Dictionary<EStat, float[]>> lookupTable = null;
 
-
-        public float GetStat(Stat stat, CharacterClass characterClass, int level)
+        public float GetStat(EStat stat, ECharacterClass characterClass, int level)
         {
             BuildLookup();
 
-            float[] levels =  lookupTable[characterClass][stat];
+            float[] levels = lookupTable[characterClass][stat];
 
-            if (levels.Length < level-1)
+            if (levels.Length < level - 1)
             {
                 return 0;
             }
@@ -27,7 +23,7 @@ namespace Game.Stats
             return levels[level - 1];
         }
 
-        public int GetNumberOfProgressionLevels(Stat stat, CharacterClass characterClass)
+        public int GetNumberOfProgressionLevels(EStat stat, ECharacterClass characterClass)
         {
             BuildLookup();
             return lookupTable[characterClass][stat].Length;
@@ -37,11 +33,11 @@ namespace Game.Stats
         {
             if (lookupTable != null) return;
 
-            lookupTable = new Dictionary<CharacterClass, Dictionary<Stat, float[]>>();
+            lookupTable = new Dictionary<ECharacterClass, Dictionary<EStat, float[]>>();
 
             foreach (var character in characterClass)
             {
-                Dictionary<Stat, float[]> statsTable = new Dictionary<Stat, float[]>();
+                Dictionary<EStat, float[]> statsTable = new Dictionary<EStat, float[]>();
                 foreach (var progressionStat in character.stats)
                 {
                     statsTable[progressionStat.stat] = progressionStat.levels;
@@ -54,18 +50,15 @@ namespace Game.Stats
         [System.Serializable]
         class ProgressionCharacterClass
         {
-            public CharacterClass characterClass;
+            public ECharacterClass characterClass;
             public ProgressionStat[] stats;
         }
 
         [System.Serializable]
         class ProgressionStat
         {
-            public Stat stat;
+            public EStat stat;
             public float[] levels;
-
         }
-
     }
-
 }

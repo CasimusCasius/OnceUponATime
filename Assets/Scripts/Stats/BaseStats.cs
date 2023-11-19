@@ -9,7 +9,7 @@ namespace Game.Stats
         public event Action onLevelUp;
 
         [SerializeField][Range(1, 99)] int startingLevel = 1;
-        [SerializeField] CharacterClass characterClass;
+        [SerializeField] ECharacterClass characterClass;
         [SerializeField] Progression progression = null;
         [SerializeField] GameObject levelUpParticleEffect;
         [SerializeField] bool shouldUseModifiers = false;
@@ -59,12 +59,12 @@ namespace Game.Stats
             Instantiate(levelUpParticleEffect, transform);
         }
 
-        public float GetStat(Stat stat)
+        public float GetStat(EStat stat)
         {
-            return (GetBaseStat(stat) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat)/100);
+            return (GetBaseStat(stat) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat) / 100);
         }
 
-        private float GetBaseStat(Stat stat)
+        private float GetBaseStat(EStat stat)
         {
             return progression.GetStat(stat, characterClass, GetLevel());
         }
@@ -74,7 +74,7 @@ namespace Game.Stats
             return currentLevel.value;
         }
 
-        private float GetAdditiveModifier(Stat stat)
+        private float GetAdditiveModifier(EStat stat)
         {
             if (!shouldUseModifiers) return 0;
             float total = 0;
@@ -87,9 +87,8 @@ namespace Game.Stats
                 }
             }
             return total;
-
         }
-        private float GetPercentageModifier(Stat stat)
+        private float GetPercentageModifier(EStat stat)
         {
             if (!shouldUseModifiers) return 0;
             float total = 0;
@@ -109,12 +108,12 @@ namespace Game.Stats
             if (experience == null) return startingLevel;
             float currentXP = experience.GetCurrentExperience();
 
-            int penultimateLevel = progression.GetNumberOfProgressionLevels(Stat.PointsToLevelUp,
+            int penultimateLevel = progression.GetNumberOfProgressionLevels(EStat.PointsToLevelUp,
                 characterClass);
 
             for (int i = 1; i <= penultimateLevel; i++)
             {
-                if (progression.GetStat(Stat.PointsToLevelUp, characterClass, i) > currentXP)
+                if (progression.GetStat(EStat.PointsToLevelUp, characterClass, i) > currentXP)
                     return i;
             }
             return penultimateLevel + 1;

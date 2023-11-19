@@ -9,7 +9,15 @@ namespace Game.Combat
     {
         public bool HandleRaycast(PlayerController callingController)
         {
-            throw new System.NotImplementedException();
+            Fighter fighter = callingController.GetComponent<Fighter>();
+            if (Input.GetMouseButton(0) && fighter.CanAttack(this.gameObject))
+            {
+                fighter.Attack(this.gameObject);
+                return true;
+            }
+            return false;
         }
+
+        public ECursorType GetCursorType() => ECursorType.Combat;
     }
 }

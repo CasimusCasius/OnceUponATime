@@ -1,4 +1,3 @@
-
 using Game.Attributes;
 using Game.Core;
 using Game.Saving;
@@ -11,7 +10,6 @@ namespace Game.Movement
     {
         NavMeshAgent navMeshAgent;
         [SerializeField] private float maxMovementSpeed = 6f;
-
 
         private void Awake()
         {
@@ -33,7 +31,6 @@ namespace Game.Movement
 
         public void MoveTo(Vector3 destination)
         {
-
             navMeshAgent.destination = destination;
             navMeshAgent.isStopped = false;
         }
@@ -41,12 +38,10 @@ namespace Game.Movement
         public void Cancel()
         {
             navMeshAgent.isStopped = true;
-            //Debug.Log(this);
         }
 
         public void StartMoveAction(Vector3 destination)
-        {
-                         
+        {         
             GetComponent<ActionScheduler>().StartAction(this);
            
             MoveTo(destination);
@@ -64,11 +59,9 @@ namespace Game.Movement
 
         public void RestoreState(object state)
         {
-            SerializableVector position = state as SerializableVector;
-            if (position != null)
+            if (state is SerializableVector position)
             {
-                NavMeshAgent navMesh = GetComponent<NavMeshAgent>();
-                if (navMesh != null)
+                if (TryGetComponent<NavMeshAgent>(out var navMesh))
                 {
                     navMesh.Warp((Vector3)position.ToVector());
                 }

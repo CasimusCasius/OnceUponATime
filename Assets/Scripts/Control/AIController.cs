@@ -37,7 +37,6 @@ namespace Game.Control
             guardingPosition = new LazyValue<Vector3>(GetPosition);
         }
 
-
         private void Start()
         {
             guardingPosition.ForceInit();

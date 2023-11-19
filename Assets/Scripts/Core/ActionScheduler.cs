@@ -21,7 +21,5 @@ namespace Game.Core
         {
             StartAction(null);
         }
-
     }
-
 }

@@ -43,7 +43,6 @@ namespace Game.Combat
             var candidateTarget = other.GetComponent<Health>();
             if (candidateTarget != null && candidateTarget == target && candidateTarget.IsAlive())
             {
-
                 target.TakeDamage(instigator, damage);
                 speed = 0;
                 if (hitEffect != null)
@@ -58,7 +57,6 @@ namespace Game.Combat
 
                 Destroy(gameObject, lifetimeAfterImpact);
             }
-
         }
     }
 }

@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Control
 {
     public class PatrolPath : MonoBehaviour
     {
-
         [SerializeField] float radiusOfWaypointSphere = 0.25f;
         private void OnDrawGizmos()
         {
@@ -23,7 +20,7 @@ namespace Game.Control
         }
         public int GetNextIndex(int i)
         {
-            return ((i+1) % transform.childCount);
+            return ((i + 1) % transform.childCount);
         }
-    } 
+    }
 }

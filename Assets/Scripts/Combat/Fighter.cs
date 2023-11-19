@@ -9,7 +9,6 @@ using UnityEngine;
 
 namespace Game.Combat
 {
-
     public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         [SerializeField] private float timeBetweenAttacks = 1.5f;
@@ -49,9 +48,7 @@ namespace Game.Combat
             {
                 if (!GetIsInRange())
                 {
-
                     mover.MoveTo(target.transform.position);
-
                 }
                 else
                 {
@@ -70,7 +67,6 @@ namespace Game.Combat
 
         public void Cancel()
         {
-
             StopAttack();
             target = null;
             GetComponent<Mover>().Cancel();
@@ -99,7 +95,7 @@ namespace Game.Combat
         {
             if (target == null) return;
 
-            float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
+            float damage = GetComponent<BaseStats>().GetStat(EStat.Damage);
             if (currentWeapon.value.HasProjectile())
             {
                 currentWeapon.value.LaunchProjectile(
@@ -110,7 +106,6 @@ namespace Game.Combat
             }
             else
             {
-
                 target.TakeDamage(gameObject, damage);
             }
         }
@@ -129,16 +124,16 @@ namespace Game.Combat
             animator.SetTrigger("outAttack");
         }
 
-        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
+        public IEnumerable<float> GetAdditiveModifiers(EStat stat)
         {
-            if (stat == Stat.Damage)
+            if (stat == EStat.Damage)
             {
                 yield return currentWeapon.value.GetWeaponDamage();
             }
         }
-        public IEnumerable<float> GetPercentageModifiers(Stat stat)
+        public IEnumerable<float> GetPercentageModifiers(EStat stat)
         {
-            if (stat == Stat.Damage)
+            if (stat == EStat.Damage)
             {
                 yield return currentWeapon.value.GetPercentageBonus();
             }
